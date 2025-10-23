@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rental Dashboard - Rent A Car</title>
+    <link rel="stylesheet" href="dashboard.css" />
+    <link rel="website icon" type="png" href="../images/rentacarlogo.png" />
+    <link rel="stylesheet" href="../common/loader.css" />
+    <style>
+      :root {
+        --pa-dur: 120ms;
+      }
+      .page-fade {
+        opacity: 0;
+        transition: opacity var(--pa-dur) ease-in-out;
+      }
+      .page-fade.visible {
+        opacity: 1;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .page-fade {
+          transition: none;
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body class="page-fade">
+    <!-- Page loader -->
+    <div id="page-loader" class="page-loader" aria-hidden="true">
+      <div class="loader-inner">
+        <img src="../images/rentacarlogo.png" alt="Rent a Car" class="loader-logo" />
+        <div class="spinner" aria-hidden="true"></div>
+        <span class="sr-only" id="loader-status">Loading, please wait</span>
+      </div>
+    </div>
+    <header>
+      <nav class="navbar">
+        <div class="logo">
+          <a href="../homepage/homepage.html"><img src="../images/rentacarlogo.png" alt="Rent a Car Logo" /></a>
+        </div>
+        <ul class="nav-links">
+          <li><a href="../homepage/homepage.html">Home</a></li>
+          <li><a href="../dashboard/dashboard.html" class="active">Dashboard</a></li>
+          <li><a href="../vehicles/vehicles.html">View Car</a></li>
+          <li><a href="../contact/contact.html">Contact</a></li>
+        </ul>
+        <!-- login removed on dashboard; only homepage shows Login -->
+      </nav>
+    </header>
+
+    <div class="dashboard-container">
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <nav class="nav-menu">
+          <a href="#" class="nav-item active">
+            <img src="../images/dashboard-icon.png" alt="Dashboard" />
+            Dashboard
+          </a>
+          <a href="#" class="nav-item">
+            <img src="../images/calendar-icon.png" alt="Calendar" />
+            Calendar View
+          </a>
+          <a href="#" class="nav-item">
+            <img src="../images/cars-icon.png" alt="Cars" />
+            Cars Status
+          </a>
+          <a href="../homepage/homepage.html" class="nav-item back-btn">Back</a>
+        </nav>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <div class="header">
+          <h2>Rental Dashboard</h2>
+          <div class="date-filter">
+            <label for="dateSelect">View reservations for:</label>
+            <input type="date" id="dateSelect" onchange="filterReservations()" />
+          </div>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="stats-container">
+          <div class="stat-card">
+            <h3>Active Rentals</h3>
+            <div class="stat-value" id="activeRentals">0</div>
+          </div>
+          <div class="stat-card">
+            <h3>Cars Available</h3>
+            <div class="stat-value" id="availableCars">0</div>
+          </div>
+          <div class="stat-card">
+            <h3>Today's Revenue</h3>
+            <div class="stat-value" id="todayRevenue">₱0.00</div>
+          </div>
+          <div class="stat-card">
+            <h3>Upcoming Returns</h3>
+            <div class="stat-value" id="upcomingReturns">0</div>
+          </div>
+        </div>
+
+        <!-- Active Rentals Table -->
+        <div class="rentals-section">
+          <h3>Active Rentals</h3>
+          <div class="table-container">
+            <table class="rentals-table">
+              <thead>
+                <tr>
+                  <th>Customer</th>
+                  <th>Car</th>
+                  <th>Pick-up Location</th>
+                  <th>Drop-off Location</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="rentalsTableBody">
+                <!-- Rows will be populated by JavaScript -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Car Status Map -->
+        <div class="map-section">
+          <h3>Car Locations</h3>
+          <div id="mapContainer">
+            <!-- Map will be loaded here -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal for Rental Details -->
+    <div id="rentalModal" class="modal">
+      <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h2>Rental Details</h2>
+        <div class="rental-details" id="modalRentalDetails">
+          <!-- Details will be populated by JavaScript -->
+        </div>
+        <div class="modal-actions">
+          <button class="btn btn-primary" onclick="updateRentalStatus('completed')">Mark as Completed</button>
+          <button class="btn btn-secondary" onclick="updateRentalStatus('cancelled')">Cancel Rental</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Map Script -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
+    <script src="dashboard.js"></script>
+
+    <!-- Footer copied from homepage -->
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <img src="../images/rentacarlogo.png" alt="Rent a Car" />
+          <p>Reliable rentals across Luzon — simple, fast, and friendly.</p>
+        </div>
+        <div class="footer-links">
+          <div>
+            <h4>Company</h4>
+            <a href="../homepage/homepage.html">Home</a>
+            <a href="../vehicles/vehicles.html">Vehicles</a>
+            <a href="../dashboard/dashboard.html">Dashboard</a>
+          </div>
+          <div>
+            <h4>Support</h4>
+            <a href="#">Help Center</a>
+            <a href="#">Contact</a>
+            <a href="#">Terms</a>
+          </div>
+        </div>
+        <div class="footer-copy">
+          ©
+          <span id="year"></span>
+          Rent A Car. All rights reserved.
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // populate footer year
+      (function () {
+        const y = new Date().getFullYear();
+        const el = document.getElementById("year");
+        if (el) el.textContent = y;
+      })();
+    </script>
+    <script>
+      (function () {
+        const dur = 120; // match CSS --pa-dur
+        const MIN_LOADER_MS = 200; // ensure loader shows at least 200ms
+        const root = document.body;
+        const loader = document.getElementById("page-loader");
+        let loaderShownAt = 0;
+
+        function showLoader() {
+          if (!loader) return (loaderShownAt = Date.now());
+          loader.classList.remove("hidden");
+          try {
+            loader.setAttribute("aria-hidden", "false");
+          } catch (e) {}
+          loaderShownAt = Date.now();
+        }
+
+        function hideLoaderSoon() {
+          const elapsed = Date.now() - loaderShownAt;
+          const wait = Math.max(0, MIN_LOADER_MS - elapsed, 40);
+          setTimeout(() => {
+            if (loader) {
+              loader.classList.add("hidden");
+              try {
+                loader.setAttribute("aria-hidden", "true");
+              } catch (e) {}
+            }
+          }, wait);
+        }
+
+        function showPage() {
+          root.classList.add("visible");
+          if (!loaderShownAt) loaderShownAt = Date.now();
+          hideLoaderSoon();
+        }
+
+        document.addEventListener("DOMContentLoaded", showPage);
+
+        // show loader on pointerdown/touchstart for snappiness
+        ["pointerdown", "touchstart"].forEach((ev) =>
+          document.addEventListener(
+            ev,
+            function (e) {
+              const a = e.target.closest && e.target.closest("a");
+              if (!a) return;
+              const href = a.getAttribute("href");
+              if (!href) return;
+              if (href.startsWith("#") || href.startsWith("mailto:") || a.target === "_blank") return;
+              showLoader();
+            },
+            { passive: true }
+          )
+        );
+
+        document.addEventListener(
+          "click",
+          function (e) {
+            const a = e.target.closest && e.target.closest("a");
+            if (!a) return;
+            const href = a.getAttribute("href");
+            if (!href) return;
+            if (href.startsWith("#") || href.startsWith("mailto:") || a.target === "_blank") return;
+            try {
+              const url = new URL(href, location.href);
+              if (url.origin !== location.origin) return;
+              e.preventDefault();
+              showLoader();
+              root.classList.remove("visible");
+              const elapsed = Date.now() - loaderShownAt;
+              const remaining = Math.max(0, MIN_LOADER_MS - elapsed);
+              setTimeout(function () {
+                location.href = url.href;
+              }, Math.max(dur + 60, remaining));
+            } catch (err) {}
+          },
+          true
+        );
+      })();
+    </script>
+    <script>
+      // auto set .active on matching nav link
+      (function () {
+        try {
+          const links = document.querySelectorAll(".nav-links a");
+          const loc = window.location;
+          links.forEach((a) => {
+            try {
+              const href = a.getAttribute("href");
+              const url = new URL(href, loc.href);
+              if (url.origin === loc.origin && url.pathname === loc.pathname) {
+                a.classList.add("active");
+              } else if (href && href.startsWith("#") && loc.hash && href === loc.hash) {
+                a.classList.add("active");
+              } else {
+                a.classList.remove("active");
+              }
+            } catch (e) {}
+          });
+        } catch (e) {}
+      })();
+    </script>
+  </body>
+</html>

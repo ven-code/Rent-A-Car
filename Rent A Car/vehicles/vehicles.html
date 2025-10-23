@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Available Vehicles - Rent A Car</title>
+    <link rel="stylesheet" href="vehicles.css" />
+    <link rel="stylesheet" href="../common/loader.css" />
+    <style>
+      :root {
+        --pa-dur: 120ms;
+      }
+      .page-fade {
+        opacity: 0;
+        transition: opacity var(--pa-dur) ease-in-out;
+      }
+      .page-fade.visible {
+        opacity: 1;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .page-fade {
+          transition: none;
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body class="page-fade">
+    <!-- Page loader -->
+    <div id="page-loader" class="page-loader" aria-hidden="true">
+      <div class="loader-inner">
+        <img src="../images/rentacarlogo.png" alt="Rent a Car" class="loader-logo" />
+        <div class="spinner" aria-hidden="true"></div>
+        <span class="sr-only" id="loader-status">Loading, please wait</span>
+      </div>
+    </div>
+    <header>
+      <nav class="navbar">
+        <div class="logo">
+          <a href="../homepage/homepage.html"><img src="../images/rentacarlogo.png" alt="Rent a Car Logo" /></a>
+        </div>
+        <ul class="nav-links">
+          <li><a href="../homepage/homepage.html">Home</a></li>
+          <li><a href="../dashboard/dashboard.html">Dashboard</a></li>
+          <li><a href="../vehicles/vehicles.html" class="active">View Car</a></li>
+          <li><a href="../contact/contact.html">Contact</a></li>
+        </ul>
+        <!-- login removed on vehicles page; only homepage shows Login -->
+      </nav>
+    </header>
+
+    <div class="vehicles-container" style="padding-top: 110px">
+      <div class="vehicles-header">
+        <div class="header-left">
+          <a href="../homepage/homepage.html" class="back-btn">Back</a>
+          <div class="header-logo">
+            <img src="../images/rentacarlogo.png" alt="Rent A Car Logo" />
+            <h1 class="logo-text">
+              Rent a
+              <strong>Car</strong>
+            </h1>
+          </div>
+        </div>
+        <div class="booking-details">
+          <div class="location-info">
+            <div class="pickup">
+              <span class="label">Pick-up:</span>
+              <span id="pickup-location-display" class="value">Loading...</span>
+              <span id="pickup-datetime-display" class="value">Loading...</span>
+            </div>
+            <div class="dropoff">
+              <span class="label">Drop-off:</span>
+              <span id="dropoff-location-display" class="value">Loading...</span>
+              <span id="dropoff-datetime-display" class="value">Loading...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="category-section">
+        <h2>Small cars</h2>
+        <div class="vehicles-grid">
+          <!-- Small Cars -->
+          <div class="vehicle-card" data-car-id="wigo" onclick="proceedToPayment('wigo', 'inclusive')">
+            <img src="../images/wigo.jpg" alt="Toyota Wigo" class="vehicle-image" />
+            <div class="vehicle-info">
+              <h3>Subcompact Sedan</h3>
+              <p class="car-subtitle">Toyota Wigo or similar</p>
+              <div class="specs-grid">
+                <div class="spec-item">
+                  <img src="../images/person.png" alt="Capacity" />
+                  <span>4</span>
+                </div>
+                <div class="spec-item">
+                  <img src="../images/luggage.png" alt="Luggage" />
+                  <span>4</span>
+                </div>
+                <div class="spec-item">
+                  <img src="../images/transmission.png" alt="Transmission" />
+                  <span>AT</span>
+                </div>
+                <div class="spec-item">
+                  <img src="../images/fuel.png" alt="Fuel" />
+                  <span>Unleaded</span>
+                </div>
+              </div>
+              <div class="rate-options">
+                <div class="rate inclusive">
+                  <span class="amount">PHP 1,966.00</span>
+                  <span class="period">per day</span>
+                  <button class="rate-btn inclusive-btn" onclick="proceedToPayment('wigo', 'inclusive')">
+                    Inclusive Rate
+                  </button>
+                </div>
+                <div class="rate standard">
+                  <span class="amount">PHP 1,416.00</span>
+                  <span class="period">per day</span>
+                  <button class="rate-btn standard-btn" onclick="proceedToPayment('wigo', 'standard')">
+                    Standard Rate
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="vehicle-card" data-car-id="vios" onclick="proceedToPayment('vios', 'inclusive')">
+            <img src="../images/vios.jpg" alt="Toyota Vios" class="vehicle-image" />
+            <div class="vehicle-info">
+              <h3>Economy Sedan</h3>
+              <p class="car-subtitle">Toyota Vios or similar</p>
+              <div class="specs-grid">
+                <div class="spec-item">
+                  <img src="../images/person.png" alt="Capacity" />
+                  <span>5</span>
+                </div>
+                <div class="spec-item">
+                  <img src="../images/luggage.png" alt="Luggage" />
+                  <span>4</span>
+                </div>
+                <div class="spec-item">
+                  <img src="../images/transmission.png" alt="Transmission" />
+                  <span>AT</span>
+                </div>
+                <div class="spec-item">
+                  <img src="../images/fuel.png" alt="Fuel" />
+                  <span>Gasoline</span>
+                </div>
+              </div>
+              <div class="rate-options">
+                <div class="rate inclusive">
+                  <span class="amount">PHP 2,164.00</span>
+                  <span class="period">per day</span>
+                  <button class="rate-btn inclusive-btn" onclick="proceedToPayment('vios', 'inclusive')">
+                    Inclusive Rate
+                  </button>
+                </div>
+                <div class="rate standard">
+                  <span class="amount">PHP 1,614.00</span>
+                  <span class="period">per day</span>
+                  <button class="rate-btn standard-btn" onclick="proceedToPayment('vios', 'standard')">
+                    Standard Rate
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="vehicle-card" data-car-id="city" onclick="proceedToPayment('city', 'inclusive')">
+            <img src="../images/city.jpg" alt="Honda City" class="vehicle-image" />
+            <div class="vehicle-info">
+              <h3>Economy Sedan Plus</h3>
+              <p class="car-subtitle">Honda City or Similar</p>
+              <div class="specs-grid">
+                <div class="spec-item">
+                  <img src="../images/person.png" alt="Capacity" />
+                  <span>5</span>
+                </div>
+                <div class="spec-item">
+                  <img src="../images/luggage.png" alt="Luggage" />
+                  <span>4</span>
+                </div>
+                <div class="spec-item">
+                  <img src="../images/transmission.png" alt="Transmission" />
+                  <span>AT</span>
+                </div>
+                <div class="spec-item">
+                  <img src="../images/fuel.png" alt="Fuel" />
+                  <span>Gasoline</span>
+                </div>
+              </div>
+              <div class="rate-options">
+                <div class="rate inclusive">
+                  <span class="amount">PHP 2,364.00</span>
+                  <span class="period">per day</span>
+                  <button class="rate-btn inclusive-btn" onclick="proceedToPayment('city', 'inclusive')">
+                    Inclusive Rate
+                  </button>
+                </div>
+                <div class="rate standard">
+                  <span class="amount">PHP 1,814.00</span>
+                  <span class="period">per day</span>
+                  <button class="rate-btn standard-btn" onclick="proceedToPayment('city', 'standard')">
+                    Standard Rate
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="category-section">
+        <h2>Large cars / SUVs</h2>
+        <div class="vehicles-grid">
+          <!-- Large Cars / SUVs -->
+          <div class="vehicle-card" data-car-id="fortuner" onclick="proceedToPayment('fortuner', 'inclusive')">
+            <img src="../images/fortuner.jpg" alt="Toyota Fortuner" class="vehicle-image" />
+            <div class="vehicle-info">
+              <h3>Mid-size SUV</h3>
+              <p class="car-subtitle">Toyota Fortuner or similar</p>
+              <div class="specs-grid">
+                <div class="spec-item">
+                  <img src="../images/person.png" alt="Capacity" />
+                  <span>7</span>
+                </div>
+                <div class="spec-item">
+                  <img src="../images/luggage.png" alt="Luggage" />
+                  <span>5</span>
+                </div>
+                <div class="spec-item">
+                  <img src="../images/transmission.png" alt="Transmission" />
+                  <span>AT</span>
+                </div>
+                <div class="spec-item">
+                  <img src="../images/fuel.png" alt="Fuel" />
+                  <span>Diesel</span>
+                </div>
+              </div>
+              <div class="rate-options">
+                <div class="rate inclusive">
+                  <span class="amount">PHP 3,566.00</span>
+                  <span class="period">per day</span>
+                  <button class="rate-btn inclusive-btn" onclick="proceedToPayment('fortuner', 'inclusive')">
+                    Inclusive Rate
+                  </button>
+                </div>
+                <div class="rate standard">
+                  <span class="amount">PHP 3,016.00</span>
+                  <span class="period">per day</span>
+                  <button class="rate-btn standard-btn" onclick="proceedToPayment('fortuner', 'standard')">
+                    Standard Rate
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="vehicle-card" data-car-id="montero" onclick="proceedToPayment('montero', 'inclusive')">
+            <img src="../images/montero.jpg" alt="Mitsubishi Montero" class="vehicle-image" />
+            <div class="vehicle-info">
+              <h3>Premium SUV</h3>
+              <p class="car-subtitle">Mitsubishi Montero or similar</p>
+              <div class="specs-grid">
+                <div class="spec-item">
+                  <img src="../images/person.png" alt="Capacity" />
+                  <span>7</span>
+                </div>
+                <div class="spec-item">
+                  <img src="../images/luggage.png" alt="Luggage" />
+                  <span>5</span>
+                </div>
+                <div class="spec-item">
+                  <img src="../images/transmission.png" alt="Transmission" />
+                  <span>AT</span>
+                </div>
+                <div class="spec-item">
+                  <img src="../images/fuel.png" alt="Fuel" />
+                  <span>Diesel</span>
+                </div>
+              </div>
+              <div class="rate-options">
+                <div class="rate inclusive">
+                  <span class="amount">PHP 3,766.00</span>
+                  <span class="period">per day</span>
+                  <button class="rate-btn inclusive-btn" onclick="proceedToPayment('montero', 'inclusive')">
+                    Inclusive Rate
+                  </button>
+                </div>
+                <div class="rate standard">
+                  <span class="amount">PHP 3,216.00</span>
+                  <span class="period">per day</span>
+                  <button class="rate-btn standard-btn" onclick="proceedToPayment('montero', 'standard')">
+                    Standard Rate
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="vehicle-card" data-car-id="innova" onclick="proceedToPayment('innova', 'inclusive')">
+            <img src="../images/innova.jpg" alt="Toyota Innova" class="vehicle-image" />
+            <div class="vehicle-info">
+              <h3>Full-size MPV</h3>
+              <p class="car-subtitle">Toyota Innova or similar</p>
+              <div class="specs-grid">
+                <div class="spec-item">
+                  <img src="../images/person.png" alt="Capacity" />
+                  <span>8</span>
+                </div>
+                <div class="spec-item">
+                  <img src="../images/luggage.png" alt="Luggage" />
+                  <span>6</span>
+                </div>
+                <div class="spec-item">
+                  <img src="../images/transmission.png" alt="Transmission" />
+                  <span>AT</span>
+                </div>
+                <div class="spec-item">
+                  <img src="../images/fuel.png" alt="Fuel" />
+                  <span>Diesel</span>
+                </div>
+              </div>
+              <div class="rate-options">
+                <div class="rate inclusive">
+                  <span class="amount">PHP 3,058.00</span>
+                  <span class="period">per day</span>
+                  <button class="rate-btn inclusive-btn" onclick="proceedToPayment('innova', 'inclusive')">
+                    Inclusive Rate
+                  </button>
+                </div>
+                <div class="rate standard">
+                  <span class="amount">PHP 2,508.00</span>
+                  <span class="period">per day</span>
+                  <button class="rate-btn standard-btn" onclick="proceedToPayment('innova', 'standard')">
+                    Standard Rate
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Car Details Modal -->
+      <div id="carModal" class="modal">
+        <div class="modal-content">
+          <span class="close-modal">&times;</span>
+          <div class="modal-header">
+            <h2 id="modalCarTitle">Car Title</h2>
+          </div>
+          <div class="modal-body">
+            <div class="car-images-slider">
+              <!-- Images will be added here -->
+            </div>
+            <div class="car-details-grid">
+              <div class="detail-item">
+                <img src="../images/person.png" alt="Passengers" />
+                <span id="carPassengers">5 Passengers</span>
+              </div>
+              <div class="detail-item">
+                <img src="../images/luggage.png" alt="Luggage" />
+                <span id="carLuggage">4 Luggage</span>
+              </div>
+              <div class="detail-item">
+                <img src="../images/transmission.png" alt="Transmission" />
+                <span id="carTransmission">AT</span>
+              </div>
+              <div class="detail-item">
+                <img src="../images/fuel.png" alt="Fuel" />
+                <span id="carFuel">Gasoline</span>
+              </div>
+            </div>
+            <div class="car-features-list">
+              <h3>Features</h3>
+              <ul id="carFeaturesList">
+                <!-- Features will be added here -->
+              </ul>
+            </div>
+            <div class="modal-rates">
+              <div class="rate inclusive">
+                <h3>Inclusive Rate</h3>
+                <span class="amount" id="modalInclusiveRate">₱0.00</span>
+                <span class="period">per day</span>
+                <button class="rate-btn inclusive-btn">Book Inclusive Rate</button>
+              </div>
+              <div class="rate standard">
+                <h3>Standard Rate</h3>
+                <span class="amount" id="modalStandardRate">₱0.00</span>
+                <span class="period">per day</span>
+                <button class="rate-btn standard-btn">Book Standard Rate</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <img src="../images/rentacarlogo.png" alt="Rent a Car" />
+          <p>Reliable rentals across Luzon — simple, fast, and friendly.</p>
+        </div>
+        <div class="footer-links">
+          <div>
+            <h4>Company</h4>
+            <a href="../homepage/homepage.html">Home</a>
+            <a href="../vehicles/vehicles.html">Vehicles</a>
+            <a href="../dashboard/dashboard.html">Dashboard</a>
+          </div>
+          <div>
+            <h4>Support</h4>
+            <a href="#">Help Center</a>
+            <a href="#">Contact</a>
+            <a href="#">Terms</a>
+          </div>
+        </div>
+        <div class="footer-copy">
+          ©
+          <span id="year"></span>
+          Rent A Car. All rights reserved.
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // populate footer year
+      (function () {
+        const y = new Date().getFullYear();
+        const el = document.getElementById("year");
+        if (el) el.textContent = y;
+      })();
+    </script>
+    <script src="vehicles.js"></script>
+    <script>
+      // inline transition + loader script: fade in on load, show loader before navigation
+      (function () {
+        const dur = 120; // match CSS --pa-dur
+        const MIN_LOADER_MS = 200; // ensure loader shows at least 200ms
+        const root = document.body;
+        const loader = document.getElementById("page-loader");
+        let loaderShownAt = 0;
+
+        function showLoader() {
+          if (!loader) return (loaderShownAt = Date.now());
+          loader.classList.remove("hidden");
+          try {
+            loader.setAttribute("aria-hidden", "false");
+          } catch (e) {}
+          loaderShownAt = Date.now();
+        }
+
+        function hideLoaderSoon() {
+          const elapsed = Date.now() - loaderShownAt;
+          const wait = Math.max(0, MIN_LOADER_MS - elapsed, 40);
+          setTimeout(() => {
+            if (loader) {
+              loader.classList.add("hidden");
+              try {
+                loader.setAttribute("aria-hidden", "true");
+              } catch (e) {}
+            }
+          }, wait);
+        }
+
+        function showPage() {
+          root.classList.add("visible");
+          if (!loaderShownAt) loaderShownAt = Date.now();
+          hideLoaderSoon();
+        }
+
+        document.addEventListener("DOMContentLoaded", showPage);
+
+        // show loader on pointerdown/touchstart for snappiness
+        ["pointerdown", "touchstart"].forEach((ev) =>
+          document.addEventListener(
+            ev,
+            function (e) {
+              const a = e.target.closest && e.target.closest("a");
+              if (!a) return;
+              const href = a.getAttribute("href");
+              if (!href) return;
+              if (href.startsWith("#") || href.startsWith("mailto:") || a.target === "_blank") return;
+              showLoader();
+            },
+            { passive: true }
+          )
+        );
+
+        document.addEventListener(
+          "click",
+          function (e) {
+            const a = e.target.closest && e.target.closest("a");
+            if (!a) return;
+            const href = a.getAttribute("href");
+            if (!href) return;
+            if (href.startsWith("#") || href.startsWith("mailto:") || a.target === "_blank") return;
+            try {
+              const url = new URL(href, location.href);
+              if (url.origin !== location.origin) return;
+              e.preventDefault();
+              showLoader();
+              root.classList.remove("visible");
+              const elapsed = Date.now() - loaderShownAt;
+              const remaining = Math.max(0, MIN_LOADER_MS - elapsed);
+              setTimeout(function () {
+                location.href = url.href;
+              }, Math.max(dur + 60, remaining));
+            } catch (err) {}
+          },
+          true
+        );
+      })();
+    </script>
+    <script>
+      // auto set .active on matching nav link
+      (function () {
+        try {
+          const links = document.querySelectorAll(".nav-links a");
+          const loc = window.location;
+          links.forEach((a) => {
+            try {
+              const href = a.getAttribute("href");
+              const url = new URL(href, loc.href);
+              if (url.origin === loc.origin && url.pathname === loc.pathname) {
+                a.classList.add("active");
+              } else if (href && href.startsWith("#") && loc.hash && href === loc.hash) {
+                a.classList.add("active");
+              } else {
+                a.classList.remove("active");
+              }
+            } catch (e) {}
+          });
+        } catch (e) {}
+      })();
+    </script>
+  </body>
+</html>

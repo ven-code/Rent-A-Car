@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Us - Rent A Car</title>
+    <link rel="stylesheet" href="contact.css" />
+    <link rel="stylesheet" href="../common/loader.css" />
+    <style>
+      :root {
+        --pa-dur: 120ms;
+      }
+      .page-fade {
+        opacity: 0;
+        transition: opacity var(--pa-dur) ease-in-out;
+      }
+      .page-fade.visible {
+        opacity: 1;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .page-fade {
+          transition: none;
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body id="top" class="page-fade">
+    <!-- Page loader -->
+    <div id="page-loader" class="page-loader" aria-hidden="true">
+      <div class="loader-inner">
+        <img src="../images/rentacarlogo.png" alt="Rent a Car" class="loader-logo" />
+        <div class="spinner" aria-hidden="true"></div>
+        <span class="sr-only" id="loader-status">Loading, please wait</span>
+      </div>
+    </div>
+    <header>
+      <nav class="navbar">
+        <div class="logo">
+          <a href="../homepage/homepage.html"><img src="../images/rentacarlogo.png" alt="Rent a Car Logo" /></a>
+        </div>
+        <ul class="nav-links">
+          <li><a href="../homepage/homepage.html">Home</a></li>
+          <li><a href="../dashboard/dashboard.html">Dashboard</a></li>
+          <li><a href="../vehicles/vehicles.html">View Car</a></li>
+          <li><a href="../contact/contact.html" class="active">Contact</a></li>
+        </ul>
+        <!-- login removed on contact page; only homepage shows Login -->
+      </nav>
+    </header>
+
+    <main class="contact-main">
+      <section class="contact-hero">
+        <div class="contact-inner">
+          <h1>Contact Us</h1>
+          <p>Questions, feedback, or bookings — we’d love to hear from you.</p>
+        </div>
+      </section>
+
+      <section class="contact-section">
+        <div class="contact-grid">
+          <div class="contact-form">
+            <h2>Send a message</h2>
+            <form id="contactForm">
+              <label for="name">Name</label>
+              <input id="name" name="name" required />
+
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" required />
+
+              <label for="message">Message</label>
+              <textarea id="message" name="message" rows="6" required></textarea>
+
+              <button type="submit" class="cta small">Send Message</button>
+            </form>
+          </div>
+
+          <div class="contact-info">
+            <h2>Get in touch</h2>
+            <p>Email: info@rentacar.com</p>
+            <p>Phone: +63 912 345 6789</p>
+            <p>Address: 123 Main St, Luzon, Philippines</p>
+
+            <h3>Opening hours</h3>
+            <p>Mon - Sun: 7:00 AM - 9:00 PM</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer copied from homepage style -->
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <img src="../images/rentacarlogo.png" alt="Rent a Car" />
+          <p>Reliable rentals across Luzon — simple, fast, and friendly.</p>
+        </div>
+        <div class="footer-links">
+          <div>
+            <h4>Company</h4>
+            <a href="../homepage/homepage.html">Home</a>
+            <a href="../vehicles/vehicles.html">Vehicles</a>
+            <a href="../dashboard/dashboard.html">Dashboard</a>
+          </div>
+          <div>
+            <h4>Support</h4>
+            <a href="#">Help Center</a>
+            <a href="#">Contact</a>
+            <a href="#">Terms</a>
+          </div>
+        </div>
+        <div class="footer-copy">
+          ©
+          <span id="year"></span>
+          Rent A Car. All rights reserved.
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      (function () {
+        const y = new Date().getFullYear();
+        const el = document.getElementById("year");
+        if (el) el.textContent = y;
+
+        const form = document.getElementById("contactForm");
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          alert("Thank you! Your message was sent (demo).");
+          form.reset();
+        });
+      })();
+    </script>
+    <script>
+      // inline transition + loader script: fade in on load, show loader before navigation
+      (function () {
+        const dur = 120; // match CSS --pa-dur
+        const MIN_LOADER_MS = 200; // ensure loader shows at least 200ms
+        const root = document.body;
+        const loader = document.getElementById("page-loader");
+        let loaderShownAt = 0;
+
+        function showLoader() {
+          if (!loader) return (loaderShownAt = Date.now());
+          loader.classList.remove("hidden");
+          try {
+            loader.setAttribute("aria-hidden", "false");
+          } catch (e) {}
+          loaderShownAt = Date.now();
+        }
+
+        function hideLoaderSoon() {
+          const elapsed = Date.now() - loaderShownAt;
+          const wait = Math.max(0, MIN_LOADER_MS - elapsed, 40);
+          setTimeout(() => {
+            if (loader) {
+              loader.classList.add("hidden");
+              try {
+                loader.setAttribute("aria-hidden", "true");
+              } catch (e) {}
+            }
+          }, wait);
+        }
+
+        function showPage() {
+          root.classList.add("visible");
+          if (!loaderShownAt) loaderShownAt = Date.now();
+          hideLoaderSoon();
+        }
+
+        document.addEventListener("DOMContentLoaded", showPage);
+
+        // show loader on pointerdown/touchstart for snappiness
+        ["pointerdown", "touchstart"].forEach((ev) =>
+          document.addEventListener(
+            ev,
+            function (e) {
+              const a = e.target.closest && e.target.closest("a");
+              if (!a) return;
+              const href = a.getAttribute("href");
+              if (!href) return;
+              if (href.startsWith("#") || href.startsWith("mailto:") || a.target === "_blank") return;
+              showLoader();
+            },
+            { passive: true }
+          )
+        );
+
+        document.addEventListener(
+          "click",
+          function (e) {
+            const a = e.target.closest && e.target.closest("a");
+            if (!a) return;
+            const href = a.getAttribute("href");
+            if (!href) return;
+            if (href.startsWith("#") || href.startsWith("mailto:") || a.target === "_blank") return;
+            try {
+              const url = new URL(href, location.href);
+              if (url.origin !== location.origin) return;
+              e.preventDefault();
+              showLoader();
+              root.classList.remove("visible");
+              const elapsed = Date.now() - loaderShownAt;
+              const remaining = Math.max(0, MIN_LOADER_MS - elapsed);
+              setTimeout(function () {
+                location.href = url.href;
+              }, Math.max(dur + 60, remaining));
+            } catch (err) {}
+          },
+          true
+        );
+      })();
+    </script>
+    <script>
+      // auto set .active on matching nav link
+      (function () {
+        try {
+          const links = document.querySelectorAll(".nav-links a");
+          const loc = window.location;
+          links.forEach((a) => {
+            try {
+              const href = a.getAttribute("href");
+              const url = new URL(href, loc.href);
+              if (url.origin === loc.origin && url.pathname === loc.pathname) {
+                a.classList.add("active");
+              } else if (href && href.startsWith("#") && loc.hash && href === loc.hash) {
+                a.classList.add("active");
+              } else {
+                a.classList.remove("active");
+              }
+            } catch (e) {}
+          });
+        } catch (e) {}
+      })();
+    </script>
+  </body>
+</html>

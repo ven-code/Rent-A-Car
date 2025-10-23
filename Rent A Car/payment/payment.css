@@ -1,0 +1,264 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  height: 100vh;
+  margin: 0;
+}
+
+.payment-container {
+  display: flex;
+  height: 100vh;
+}
+
+.payment-left {
+  flex: 1;
+  background-image: url("../images/Loginbg.png");
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.payment-left::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.payment-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+.back-btn {
+  align-self: flex-end;
+  text-decoration: none;
+  background: linear-gradient(180deg, #184db0, #1e40af);
+  color: white;
+  padding: 10px 28px;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(30, 64, 175, 0.18);
+  margin-bottom: 2rem;
+}
+
+.back-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(30, 64, 175, 0.25);
+}
+
+.payment-form-container {
+  max-width: 500px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.logo {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.logo img {
+  height: 100px;
+  margin-bottom: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.logo img:hover {
+  transform: scale(1.05);
+}
+
+.logo-text {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.logo-text strong {
+  color: #3b82f6;
+}
+
+.booking-summary {
+  background: #f8fafc;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
+.booking-summary h2 {
+  color: #1e293b;
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+}
+
+.car-details {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.car-details img {
+  width: 120px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.car-info h3 {
+  color: #1e293b;
+  font-size: 1.1rem;
+  margin-bottom: 0.25rem;
+}
+
+.car-info p {
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.booking-details .detail-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.booking-details .label {
+  color: #64748b;
+}
+
+.booking-details .value {
+  color: #1e293b;
+  font-weight: 500;
+}
+
+.booking-details .total {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.booking-details .total .value {
+  color: #3b82f6;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.payment-form h2 {
+  color: #1e293b;
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+}
+
+.payment-methods {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.payment-method-btn {
+  padding: 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 500;
+}
+
+.payment-method-btn.active {
+  border-color: #3b82f6;
+  background: #ebf5ff;
+  color: #3b82f6;
+}
+
+.payment-method-btn:hover {
+  border-color: #3b82f6;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #64748b;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+.card-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.pay-btn {
+  width: 100%;
+  padding: 1rem;
+  background: linear-gradient(180deg, #184db0, #1e40af);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(30, 64, 175, 0.18);
+}
+
+.pay-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(30, 64, 175, 0.25);
+}
+
+@media (max-width: 768px) {
+  .payment-container {
+    flex-direction: column;
+  }
+
+  .payment-left {
+    display: none;
+  }
+
+  .payment-right {
+    padding: 1rem;
+  }
+
+  .payment-methods {
+    grid-template-columns: 1fr;
+  }
+
+  .card-details {
+    grid-template-columns: 1fr;
+  }
+}

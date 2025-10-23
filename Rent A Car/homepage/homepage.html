@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rent a Car</title>
+    <link rel="website icon" type="png" href="../images/rentacarlogo.png" />
+    <!-- Critical inline loader CSS: ensures the loader overlays immediately on first paint to avoid white flash -->
+    <style id="critical-loader-style">
+      .page-loader {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.95);
+        z-index: 9999;
+        opacity: 1;
+        visibility: visible;
+        pointer-events: none;
+        backdrop-filter: blur(2px);
+      }
+      .page-loader.hidden {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+      .loader-logo {
+        width: 120px;
+        height: auto;
+        display: block;
+        margin: 0 auto 8px;
+      }
+      .spinner {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: 4px solid rgba(30, 64, 175, 0.12);
+        border-top-color: #184db0;
+        animation: spin 0.8s linear infinite;
+        margin: 0 auto;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="homepage.css" />
+    <link rel="stylesheet" href="../common/loader.css" />
+    <style>
+      /* inline page transition: fade in/out */
+      :root {
+        --pa-dur: 120ms;
+      }
+      .page-fade {
+        opacity: 0;
+        transition: opacity var(--pa-dur) ease-in-out;
+      }
+      .page-fade.visible {
+        opacity: 1;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .page-fade {
+          transition: none;
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body id="top" class="page-fade">
+    <!-- Page loader -->
+    <div id="page-loader" class="page-loader" aria-hidden="true">
+      <div class="loader-inner">
+        <img src="../images/rentacarlogo.png" alt="Rent a Car" class="loader-logo" />
+        <div class="spinner" aria-hidden="true"></div>
+        <span class="sr-only" id="loader-status">Loading, please wait</span>
+      </div>
+    </div>
+    <header>
+      <nav class="navbar">
+        <div class="logo">
+          <img src="../images/rentacarlogo.png" alt="Rent a Car Logo" />
+        </div>
+        <ul class="nav-links">
+          <li><a href="#top" class="active">Home</a></li>
+          <li><a href="../dashboard/dashboard.html">Dashboard</a></li>
+          <li><a href="../vehicles/vehicles.html">View Car</a></li>
+          <li><a href="../contact/contact.html">Contact</a></li>
+        </ul>
+        <div class="auth-links">
+          <a href="../login/login.html" class="auth-btn">Login</a>
+        </div>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="overlay">
+        <div class="hero-content">
+          <h1 class="hero-title">
+            Rent a
+            <strong>Car</strong>
+          </h1>
+          <p class="hero-sub">Explore More. Worry Less!</p>
+
+          <form class="booking-form" id="bookingForm" novalidate>
+            <div class="form-row">
+              <div class="form-group">
+                <div class="form-field">
+                  <label for="pickup-location">Pick-Up Location</label>
+                  <select id="pickup-location" name="pickup_location" required>
+                    <option value="" disabled selected hidden>Select Location</option>
+                    <option>Lipa</option>
+                    <option>Batangas City</option>
+                    <option>Santa Rosa</option>
+                    <option>Angeles</option>
+                    <option>San Fernando</option>
+                    <option>Subic</option>
+                    <option>Olongapo</option>
+                    <option>Baguio</option>
+                    <option>Dagupan</option>
+                    <option>Vigan</option>
+                  </select>
+                </div>
+                <div class="form-field date-field">
+                  <label for="pickup-date">Pick-Up Date</label>
+                  <input type="date" id="pickup-date" name="pickup_date" required placeholder="Select pick-up date" />
+                </div>
+                <div class="form-field time-field">
+                  <label for="pickup-time">Pick-Up Time</label>
+                  <select id="pickup-time" name="pickup_time" required>
+                    <option value="" disabled selected hidden>Select Time</option>
+                    <option value="00:00">12:00 AM</option>
+                    <option value="00:30">12:30 AM</option>
+                    <option value="01:00">1:00 AM</option>
+                    <option value="01:30">1:30 AM</option>
+                    <option value="02:00">2:00 AM</option>
+                    <option value="02:30">2:30 AM</option>
+                    <option value="03:00">3:00 AM</option>
+                    <option value="03:30">3:30 AM</option>
+                    <option value="04:00">4:00 AM</option>
+                    <option value="04:30">4:30 AM</option>
+                    <option value="05:00">5:00 AM</option>
+                    <option value="05:30">5:30 AM</option>
+                    <option value="06:00">6:00 AM</option>
+                    <option value="06:30">6:30 AM</option>
+                    <option value="07:00">7:00 AM</option>
+                    <option value="07:30">7:30 AM</option>
+                    <option value="08:00">8:00 AM</option>
+                    <option value="08:30">8:30 AM</option>
+                    <option value="09:00">9:00 AM</option>
+                    <option value="09:30">9:30 AM</option>
+                    <option value="10:00">10:00 AM</option>
+                    <option value="10:30">10:30 AM</option>
+                    <option value="11:00">11:00 AM</option>
+                    <option value="11:30">11:30 AM</option>
+                    <option value="12:00">12:00 PM</option>
+                    <option value="12:30">12:30 PM</option>
+                    <option value="13:00">1:00 PM</option>
+                    <option value="13:30">1:30 PM</option>
+                    <option value="14:00">2:00 PM</option>
+                    <option value="14:30">2:30 PM</option>
+                    <option value="15:00">3:00 PM</option>
+                    <option value="15:30">3:30 PM</option>
+                    <option value="16:00">4:00 PM</option>
+                    <option value="16:30">4:30 PM</option>
+                    <option value="17:00">5:00 PM</option>
+                    <option value="17:30">5:30 PM</option>
+                    <option value="18:00">6:00 PM</option>
+                    <option value="18:30">6:30 PM</option>
+                    <option value="19:00">7:00 PM</option>
+                    <option value="19:30">7:30 PM</option>
+                    <option value="20:00">8:00 PM</option>
+                    <option value="20:30">8:30 PM</option>
+                    <option value="21:00">9:00 PM</option>
+                    <option value="21:30">9:30 PM</option>
+                    <option value="22:00">10:00 PM</option>
+                    <option value="22:30">10:30 PM</option>
+                    <option value="23:00">11:00 PM</option>
+                    <option value="23:30">11:30 PM</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <div class="form-field">
+                  <label for="dropoff-location">Drop-Off Location</label>
+                  <select id="dropoff-location" name="dropoff_location" required>
+                    <option value="" disabled selected hidden>Select Location</option>
+                    <option>Lipa</option>
+                    <option>Batangas City</option>
+                    <option>Santa Rosa</option>
+                    <option>Angeles</option>
+                    <option>San Fernando</option>
+                    <option>Subic</option>
+                    <option>Olongapo</option>
+                    <option>Baguio</option>
+                    <option>Dagupan</option>
+                    <option>Vigan</option>
+                  </select>
+                </div>
+                <div class="form-field date-field">
+                  <label for="dropoff-date">Drop-Off Date</label>
+                  <input
+                    type="date"
+                    id="dropoff-date"
+                    name="dropoff_date"
+                    required
+                    placeholder="Select drop-off date"
+                  />
+                </div>
+                <div class="form-field time-field">
+                  <label for="dropoff-time">Drop-Off Time</label>
+                  <select id="dropoff-time" name="dropoff_time" required>
+                    <option value="" disabled selected hidden>Select Time</option>
+                    <option value="00:00">12:00 AM</option>
+                    <option value="00:30">12:30 AM</option>
+                    <option value="01:00">1:00 AM</option>
+                    <option value="01:30">1:30 AM</option>
+                    <option value="02:00">2:00 AM</option>
+                    <option value="02:30">2:30 AM</option>
+                    <option value="03:00">3:00 AM</option>
+                    <option value="03:30">3:30 AM</option>
+                    <option value="04:00">4:00 AM</option>
+                    <option value="04:30">4:30 AM</option>
+                    <option value="05:00">5:00 AM</option>
+                    <option value="05:30">5:30 AM</option>
+                    <option value="06:00">6:00 AM</option>
+                    <option value="06:30">6:30 AM</option>
+                    <option value="07:00">7:00 AM</option>
+                    <option value="07:30">7:30 AM</option>
+                    <option value="08:00">8:00 AM</option>
+                    <option value="08:30">8:30 AM</option>
+                    <option value="09:00">9:00 AM</option>
+                    <option value="09:30">9:30 AM</option>
+                    <option value="10:00">10:00 AM</option>
+                    <option value="10:30">10:30 AM</option>
+                    <option value="11:00">11:00 AM</option>
+                    <option value="11:30">11:30 AM</option>
+                    <option value="12:00">12:00 PM</option>
+                    <option value="12:30">12:30 PM</option>
+                    <option value="13:00">1:00 PM</option>
+                    <option value="13:30">1:30 PM</option>
+                    <option value="14:00">2:00 PM</option>
+                    <option value="14:30">2:30 PM</option>
+                    <option value="15:00">3:00 PM</option>
+                    <option value="15:30">3:30 PM</option>
+                    <option value="16:00">4:00 PM</option>
+                    <option value="16:30">4:30 PM</option>
+                    <option value="17:00">5:00 PM</option>
+                    <option value="17:30">5:30 PM</option>
+                    <option value="18:00">6:00 PM</option>
+                    <option value="18:30">6:30 PM</option>
+                    <option value="19:00">7:00 PM</option>
+                    <option value="19:30">7:30 PM</option>
+                    <option value="20:00">8:00 PM</option>
+                    <option value="20:30">8:30 PM</option>
+                    <option value="21:00">9:00 PM</option>
+                    <option value="21:30">9:30 PM</option>
+                    <option value="22:00">10:00 PM</option>
+                    <option value="22:30">10:30 PM</option>
+                    <option value="23:00">11:00 PM</option>
+                    <option value="23:30">11:30 PM</option>
+                  </select>
+                </div>
+              </div>
+              <button type="button" class="book-now" id="bookBtn">
+                Book Now
+                <span class="arrow">→</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="scroller-wrapper">
+      <div class="scroller-inner">
+        <div class="scroller-header">
+          <div class="scroller-title">Featured Cars</div>
+          <div class="scroller-sub">Enjoy our seamless car display — always moving, never stopping!</div>
+        </div>
+
+        <div class="car-scroller">
+          <div class="scrolling-container">
+            <img src="../images/2.png" alt="Car 1: Compact" />
+            <img src="../images/3.png" alt="Car 2: Sedan" />
+            <img src="../images/4.png" alt="Car 3: SUV" />
+            <img src="../images/5.png" alt="Car 4: Van" />
+            <img src="../images/6.png" alt="Car 5: Luxury" />
+            <img src="../images/7.png" alt="Car 6: Hatchback" />
+            <!-- duplicate for continuous effect -->
+            <img src="../images/2.png" alt="Car 1: Compact" />
+            <img src="../images/3.png" alt="Car 2: Sedan" />
+            <img src="../images/4.png" alt="Car 3: SUV" />
+            <img src="../images/5.png" alt="Car 4: Van" />
+            <img src="../images/6.png" alt="Car 5: Luxury" />
+            <img src="../images/7.png" alt="Car 6: Hatchback" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Scroller details: add some cards below the scroller to match other sections -->
+    <section class="scroller-details">
+      <div class="details-inner">
+        <div class="detail-card">
+          <h3>Wide Selection</h3>
+          <p>From compacts to SUVs, choose the perfect car for your trip — all well-maintained and insured.</p>
+        </div>
+        <div class="detail-card">
+          <h3>Flexible Pickup</h3>
+          <p>Multiple convenient pickup locations across Luzon for a seamless experience.</p>
+        </div>
+        <div class="detail-card">
+          <h3>24/7 Support</h3>
+          <p>Our support team is always available to help with bookings, changes, or roadside assistance.</p>
+        </div>
+        <div class="detail-card">
+          <h3>Affordable Rates</h3>
+          <p>Transparent pricing with no surprises — book confidently and drive away happy.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Info section: text left, two stacked images right (matches provided screenshot) -->
+    <section class="info-section">
+      <div class="info-grid">
+        <div class="info-text">
+          <h2>
+            Rent a Car
+            <span>Made it easy for you!</span>
+          </h2>
+          <p>
+            We make renting a car in Luzon simple and convenient for every traveler. Whether you're heading to the
+            bustling streets of Manila, the relaxing beaches of Batangas, or the scenic highlands of Baguio, Rent A Car
+            has the perfect ride for your trip.
+          </p>
+          <p>
+            With our wide selection of vehicles — from compact cars for quick city drives to spacious SUVs for long road
+            trips — you can find the best option that fits your travel needs and budget. Just visit our Vehicles page
+            and explore our range of modern, well-maintained cars ready to hit the road.
+          </p>
+          <p>
+            And it's not just about the cars: we also offer helpful travel resources and tips to make your Luzon journey
+            even smoother. Once you've decided where you're going and what you want to explore, booking your rental car
+            is as easy as a few clicks.
+          </p>
+        </div>
+        <div class="info-images">
+          <img src="../images/2.png" alt="customer in car" class="info-img top" />
+          <img src="../images/3.png" alt="agent helping customer" class="info-img bottom" />
+        </div>
+      </div>
+    </section>
+
+    <!-- No custom dropdown JS needed, using native selects for accessibility -->
+    <script>
+      // Lightweight custom dropdown for time selects to visually match location selects
+      (function () {
+        function makeCustom(selectId) {
+          const sel = document.getElementById(selectId);
+          if (!sel) return;
+          sel.classList.add("native-hidden");
+
+          const wrapper = document.createElement("div");
+          wrapper.className = "custom-select";
+
+          const display = document.createElement("div");
+          display.className = "selected";
+          display.tabIndex = 0;
+          display.textContent = sel.options[sel.selectedIndex] ? sel.options[sel.selectedIndex].text : "Select Time";
+
+          const opts = document.createElement("div");
+          opts.className = "options";
+          opts.style.display = "none";
+
+          Array.from(sel.options).forEach((o, idx) => {
+            const item = document.createElement("div");
+            item.className = "option-item";
+            item.textContent = o.text;
+            item.dataset.value = o.value;
+            if (o.disabled) item.style.color = "#94a3b8";
+            item.addEventListener("click", () => {
+              // ignore placeholder
+              if (o.disabled) return;
+              display.textContent = o.text;
+              sel.value = o.value;
+              // close
+              opts.style.display = "none";
+            });
+            opts.appendChild(item);
+          });
+
+          display.addEventListener("click", () => {
+            opts.style.display = opts.style.display === "none" ? "block" : "none";
+          });
+
+          // close on outside click
+          document.addEventListener("click", (e) => {
+            if (!wrapper.contains(e.target)) opts.style.display = "none";
+          });
+
+          wrapper.appendChild(display);
+          wrapper.appendChild(opts);
+          sel.parentNode.insertBefore(wrapper, sel.nextSibling);
+        }
+
+        // make custom UI for time selects
+        makeCustom("pickup-time");
+        makeCustom("dropoff-time");
+        // also make custom UI for location selects so options visually match
+        makeCustom("pickup-location");
+        makeCustom("dropoff-location");
+      })();
+    </script>
+    <script src="homepage.js"></script>
+    <script>
+      // populate footer year
+      (function () {
+        const y = new Date().getFullYear();
+        const el = document.getElementById("year");
+        if (el) el.textContent = y;
+      })();
+    </script>
+
+    <script>
+      // inline transition + loader script: fade in on load, show loader before navigation
+      (function () {
+        const dur = 120; // match CSS --pa-dur
+        const MIN_LOADER_MS = 200; // ensure loader shows at least 200ms
+        const root = document.body;
+        const loader = document.getElementById("page-loader");
+        let loaderShownAt = 0;
+
+        function showLoader() {
+          if (!loader) return (loaderShownAt = Date.now());
+          loader.classList.remove("hidden");
+          try {
+            loader.setAttribute("aria-hidden", "false");
+          } catch (e) {}
+          loaderShownAt = Date.now();
+        }
+
+        function hideLoaderSoon() {
+          // hide after a small delay once page is painted, but respect reduced-motion
+          const elapsed = Date.now() - loaderShownAt;
+          const wait = Math.max(0, MIN_LOADER_MS - elapsed, 40);
+          setTimeout(() => {
+            if (loader) {
+              loader.classList.add("hidden");
+              try {
+                loader.setAttribute("aria-hidden", "true");
+              } catch (e) {}
+            }
+          }, wait);
+        }
+
+        function showPage() {
+          root.classList.add("visible");
+          // mark loader shown time if not already set
+          if (!loaderShownAt) loaderShownAt = Date.now();
+          hideLoaderSoon();
+        }
+
+        // show immediately on load start
+        document.addEventListener("DOMContentLoaded", showPage);
+
+        // show loader on pointerdown/touchstart for snappiness
+        ["pointerdown", "touchstart"].forEach((ev) =>
+          document.addEventListener(
+            ev,
+            function (e) {
+              const a = e.target.closest && e.target.closest("a");
+              if (!a) return;
+              const href = a.getAttribute("href");
+              if (!href) return;
+              if (href.startsWith("#") || href.startsWith("mailto:") || a.target === "_blank") return;
+              showLoader();
+            },
+            { passive: true }
+          )
+        );
+
+        document.addEventListener(
+          "click",
+          function (e) {
+            const a = e.target.closest && e.target.closest("a");
+            if (!a) return;
+            const href = a.getAttribute("href");
+            if (!href) return;
+            if (href.startsWith("#") || href.startsWith("mailto:") || a.target === "_blank") return;
+            try {
+              const url = new URL(href, location.href);
+              if (url.origin !== location.origin) return; // external link
+              e.preventDefault();
+              // show loader and fade out
+              showLoader();
+              root.classList.remove("visible");
+
+              // ensure minimum loader display time before navigating
+              const elapsed = Date.now() - loaderShownAt;
+              const remaining = Math.max(0, MIN_LOADER_MS - elapsed);
+              setTimeout(function () {
+                location.href = url.href;
+              }, Math.max(dur + 60, remaining));
+            } catch (err) {
+              // invalid URL - ignore
+            }
+          },
+          true
+        );
+      })();
+    </script>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <img src="../images/rentacarlogo.png" alt="Rent a Car" />
+          <p>Reliable rentals across Luzon — simple, fast, and friendly.</p>
+        </div>
+        <div class="footer-links">
+          <div>
+            <h4>Company</h4>
+            <a href="../homepage/homepage.html">Home</a>
+            <a href="../vehicles/vehicles.html">Vehicles</a>
+            <a href="../dashboard/dashboard.html">Dashboard</a>
+          </div>
+          <div>
+            <h4>Support</h4>
+            <a href="#">Help Center</a>
+            <a href="#">Contact</a>
+            <a href="#">Terms</a>
+          </div>
+        </div>
+        <div class="footer-copy">
+          ©
+          <span id="year"></span>
+          Rent A Car. All rights reserved.
+        </div>
+      </div>
+    </footer>
+    <script>
+      // auto set .active on matching nav link
+      (function () {
+        try {
+          const links = document.querySelectorAll(".nav-links a");
+          const loc = window.location;
+          links.forEach((a) => {
+            try {
+              const href = a.getAttribute("href");
+              const url = new URL(href, loc.href);
+              if (url.origin === loc.origin && url.pathname === loc.pathname) {
+                a.classList.add("active");
+              } else if (href && href.startsWith("#") && loc.hash && href === loc.hash) {
+                a.classList.add("active");
+              } else {
+                a.classList.remove("active");
+              }
+            } catch (e) {}
+          });
+        } catch (e) {}
+      })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,23 @@
+/* Page transition helpers: fade in on load, fade out before navigation */
+:root {
+  --transition-duration: 340ms;
+}
+
+/* container for fade effect */
+.page-fade {
+  opacity: 0;
+  transition: opacity var(--transition-duration) ease-in-out;
+}
+
+.page-fade.visible {
+  opacity: 1;
+}
+
+/* optional reduced-motion respect */
+@media (prefers-reduced-motion: reduce) {
+  .page-fade,
+  .page-fade.visible {
+    transition: none !important;
+    opacity: 1 !important;
+  }
+}

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Rent a Car — Scrolling Ads</title>
+    <link rel="website icon" type="png" href="../images/rentacarlogo.png" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      (function () {
+        const MIN_LOADER_MS = 200;
+        const loader = document.getElementById("page-loader");
+        let loaderShownAt = 0;
+
+        function showLoader() {
+          if (!loader) return (loaderShownAt = Date.now());
+          loader.classList.remove("hidden");
+          loaderShownAt = Date.now();
+        }
+
+        function hideLoaderSoon() {
+          const elapsed = Date.now() - loaderShownAt;
+          const wait = Math.max(0, MIN_LOADER_MS - elapsed, 40);
+          setTimeout(() => loader && loader.classList.add("hidden"), wait);
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+          if (!loaderShownAt) loaderShownAt = Date.now();
+          hideLoaderSoon();
+        });
+
+        ["pointerdown", "touchstart"].forEach((ev) =>
+          document.addEventListener(
+            ev,
+            function (e) {
+              const a = e.target.closest && e.target.closest("a");
+              if (!a) return;
+              const href = a.getAttribute("href");
+              if (!href) return;
+              if (href.startsWith("#") || href.startsWith("mailto:") || a.target === "_blank") return;
+              showLoader();
+            },
+            { passive: true }
+          )
+        );
+
+        document.addEventListener(
+          "click",
+          function (e) {
+            const a = e.target.closest && e.target.closest("a");
+            if (!a) return;
+            const href = a.getAttribute("href");
+            if (!href) return;
+            if (href.startsWith("#") || href.startsWith("mailto:") || a.target === "_blank") return;
+            try {
+              const url = new URL(href, location.href);
+              if (url.origin !== location.origin) return;
+              e.preventDefault();
+              showLoader();
+              const elapsed = Date.now() - loaderShownAt;
+              const remaining = Math.max(0, MIN_LOADER_MS - elapsed);
+              setTimeout(() => (location.href = url.href), Math.max(200, remaining));
+            } catch (e) {}
+          },
+          true
+        );
+      })();
+    </script>
+    <style>
+      /* loader moved to shared stylesheet */
+      @import url("../common/loader.css");
+
+      .logo {
+        padding-left: 40px;
+      }
+      .logo img {
+        height: 44px;
+      }
+      .nav-links {
+        list-style: none;
+        display: flex;
+        gap: 48px;
+        justify-content: center;
+      }
+      .nav-links a {
+        text-decoration: none;
+        color: #122433;
+        font-weight: 600;
+      }
+      .auth-links {
+        display: flex;
+        justify-content: flex-end;
+        padding-right: 40px;
+      }
+      .auth-btn {
+        background: linear-gradient(180deg, #184db0, #1e40af);
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 8px;
+        text-decoration: none;
+      }
+
+      /* loader moved to shared stylesheet */
+      @import url("../common/loader.css");
+
+      .scroller-wrapper {
+        margin-top: 86px;
+        padding: 36px 0;
+        background: #f8fbff;
+        border-bottom: 1px solid rgba(18, 36, 51, 0.04);
+      }
+      .scroller-inner {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 18px 16px;
+      }
+      .scroller-header {
+        margin-bottom: 14px;
+      }
+      .scroller-title {
+        font-size: 28px;
+        font-weight: 700;
+        color: #122433;
+      }
+      .scroller-sub {
+        font-size: 14px;
+        color: #475569;
+        margin-bottom: 12px;
+      }
+
+      .car-scroller {
+        position: relative;
+        overflow: hidden;
+        border-radius: 16px;
+        background: linear-gradient(90deg, #ffffff, #f1f7ff);
+        box-shadow: 0 8px 30px rgba(2, 6, 23, 0.05);
+      }
+      .scrolling-container {
+        display: flex;
+        width: max-content;
+        animation: scrollContinuous 40s linear infinite;
+      }
+      .scrolling-container img {
+        height: 260px;
+        width: 380px;
+        border-radius: 12px;
+        margin: 0 20px;
+        object-fit: cover;
+        box-shadow: 0 10px 26px rgba(2, 6, 23, 0.08);
+      }
+
+      @keyframes scrollContinuous {
+        0% {
+          transform: translateX(0);
+        }
+        100% {
+          transform: translateX(-50%);
+        }
+      }
+
+      @media (max-width: 700px) {
+        .scroller-title {
+          font-size: 20px;
+        }
+        .scroller-sub {
+          font-size: 13px;
+        }
+        .scrolling-container img {
+          height: 180px;
+          width: 260px;
+          margin: 0 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Page loader -->
+    <div id="page-loader" class="page-loader" aria-hidden="true">
+      <div class="loader-inner">
+        <img src="../images/rentacarlogo.png" alt="Rent a Car" class="loader-logo" />
+        <div class="spinner" aria-hidden="true"></div>
+        <span class="sr-only" id="loader-status">Loading, please wait</span>
+      </div>
+    </div>
+    <header>
+      <nav class="navbar">
+        <div class="logo"><img src="../images/rentacarlogo.png" alt="logo" /></div>
+        <ul class="nav-links">
+          <li><a href="../homepage/homepage.html" class="active">Home</a></li>
+          <li><a href="../dashboard/dashboard.html">Dashboard</a></li>
+          <li><a href="../vehicles/vehicles.html">View Car</a></li>
+        </ul>
+        <div class="auth-links"><a class="auth-btn" href="../login/login.html">Login</a></div>
+      </nav>
+    </header>
+
+    <section class="scroller-wrapper">
+      <div class="scroller-inner">
+        <div class="scroller-header">
+          <div class="scroller-title">Featured Cars</div>
+          <div class="scroller-sub">Enjoy our seamless car display — always moving, never stopping!</div>
+        </div>
+
+        <div class="car-scroller">
+          <div class="scrolling-container">
+            <img src="../images/2.png" alt="Car 1: Compact" />
+            <img src="../images/3.png" alt="Car 2: Sedan" />
+            <img src="../images/4.png" alt="Car 3: SUV" />
+            <img src="../images/5.png" alt="Car 4: Van" />
+            <img src="../images/6.png" alt="Car 5: Luxury" />
+            <img src="../images/7.png" alt="Car 6: Hatchback" />
+            <!-- duplicate for continuous effect -->
+            <img src="../images/2.png" alt="Car 1: Compact" />
+            <img src="../images/3.png" alt="Car 2: Sedan" />
+            <img src="../images/4.png" alt="Car 3: SUV" />
+            <img src="../images/5.png" alt="Car 4: Van" />
+            <img src="../images/6.png" alt="Car 5: Luxury" />
+            <img src="../images/7.png" alt="Car 6: Hatchback" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="info-section" style="padding: 48px 0">
+      <div style="max-width: 1200px; margin: 0 auto; padding: 0 16px">
+        <h2 style="font-size: 38px; margin-bottom: 12px">
+          Rent a Car
+          <span style="display: block; font-weight: 700; font-size: 42px">Made it easy for you!</span>
+        </h2>
+        <p style="color: #475569; font-size: 18px; line-height: 1.6">
+          We make renting a car in Luzon simple and convenient for every traveler. Whether you're heading to the
+          bustling streets of Manila, the relaxing beaches of Batangas, or the scenic highlands of Baguio, Rent A Car
+          has the perfect ride for your trip.
+        </p>
+      </div>
+    </section>
+  </body>
+  <script>
+    // minimal loader behavior for homepagep
+    (function () {
+      const loader = document.getElementById("page-loader");
+      document.addEventListener(
+        "pointerdown",
+        function (e) {
+          const a = e.target.closest && e.target.closest("a");
+          if (!a) return;
+          const href = a.getAttribute("href");
+          if (!href) return;
+          if (href.startsWith("#") || href.startsWith("mailto:") || a.target === "_blank") return;
+          if (loader) loader.classList.remove("hidden");
+        },
+        true
+      );
+      document.addEventListener(
+        "click",
+        function (e) {
+          const a = e.target.closest && e.target.closest("a");
+          if (!a) return;
+          const href = a.getAttribute("href");
+          if (!href) return;
+          if (href.startsWith("#") || href.startsWith("mailto:") || a.target === "_blank") return;
+          try {
+            const url = new URL(href, location.href);
+            if (url.origin !== location.origin) return;
+            e.preventDefault();
+            if (loader) loader.classList.remove("hidden");
+            setTimeout(() => (location.href = url.href), 200);
+          } catch (e) {}
+        },
+        true
+      );
+      setTimeout(() => loader && loader.classList.add("hidden"), 40);
+    })();
+  </script>
+</html>
